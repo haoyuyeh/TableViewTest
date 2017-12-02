@@ -11,7 +11,7 @@ import UIKit
 
 class Item {
     var name = ""
-    var image = UIImage(named: "cat.png")
+    var image = UIImage(named: "object.png")
     var quantity = 0
     var price = 0.0
     var minPrice = 0.0

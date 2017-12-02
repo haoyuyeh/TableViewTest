@@ -54,6 +54,7 @@
 		9B3904841FD2700400B25BE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B3904AA1FD2E88F00B25BE8 /* cat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cat.png; sourceTree = "<group>"; };
 		9B3904AB1FD2ECAE00B25BE8 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		9B3904AF1FD2F3D000B25BE8 /* object.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = object.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +90,7 @@
 				9B3904811FD2700400B25BE8 /* tableViewTestUITests */,
 				9B39045D1FD2700400B25BE8 /* Products */,
 				9B3904AA1FD2E88F00B25BE8 /* cat.png */,
+				9B3904AF1FD2F3D000B25BE8 /* object.png */,
 			);
 			sourceTree = "<group>";
 		};
