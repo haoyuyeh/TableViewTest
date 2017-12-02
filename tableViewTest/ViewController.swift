@@ -17,7 +17,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         items.append(Item(name: "juice", quantity: 2, price: 1.5))
-        
     }
     
     // MARK : Table View Delegate Methods
