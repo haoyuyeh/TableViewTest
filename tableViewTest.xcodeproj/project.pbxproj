@@ -18,6 +18,9 @@
 		9B3904AC1FD2ECAE00B25BE8 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3904AB1FD2ECAE00B25BE8 /* Item.swift */; };
 		9B3904AD1FD2ECAE00B25BE8 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3904AB1FD2ECAE00B25BE8 /* Item.swift */; };
 		9B3904AE1FD2ECAE00B25BE8 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3904AB1FD2ECAE00B25BE8 /* Item.swift */; };
+		9BB746CA1FDD297F00E74F1F /* AddItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB746C91FDD297F00E74F1F /* AddItemTableViewController.swift */; };
+		9BB746CB1FDD297F00E74F1F /* AddItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB746C91FDD297F00E74F1F /* AddItemTableViewController.swift */; };
+		9BB746CC1FDD297F00E74F1F /* AddItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB746C91FDD297F00E74F1F /* AddItemTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,7 @@
 		9B3904821FD2700400B25BE8 /* tableViewTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tableViewTestUITests.swift; sourceTree = "<group>"; };
 		9B3904841FD2700400B25BE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B3904AB1FD2ECAE00B25BE8 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		9BB746C91FDD297F00E74F1F /* AddItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,7 @@
 				9B39045F1FD2700400B25BE8 /* AppDelegate.swift */,
 				9B3904611FD2700400B25BE8 /* ViewController.swift */,
 				9B3904AB1FD2ECAE00B25BE8 /* Item.swift */,
+				9BB746C91FDD297F00E74F1F /* AddItemTableViewController.swift */,
 				9B3904631FD2700400B25BE8 /* Main.storyboard */,
 				9B3904691FD2700400B25BE8 /* Assets.xcassets */,
 				9B39046B1FD2700400B25BE8 /* LaunchScreen.storyboard */,
@@ -268,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B3904AC1FD2ECAE00B25BE8 /* Item.swift in Sources */,
+				9BB746CA1FDD297F00E74F1F /* AddItemTableViewController.swift in Sources */,
 				9B3904621FD2700400B25BE8 /* ViewController.swift in Sources */,
 				9B3904681FD2700400B25BE8 /* tableViewTest.xcdatamodeld in Sources */,
 				9B3904601FD2700400B25BE8 /* AppDelegate.swift in Sources */,
@@ -280,6 +286,7 @@
 			files = (
 				9B3904AD1FD2ECAE00B25BE8 /* Item.swift in Sources */,
 				9B3904781FD2700400B25BE8 /* tableViewTestTests.swift in Sources */,
+				9BB746CB1FDD297F00E74F1F /* AddItemTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +296,7 @@
 			files = (
 				9B3904AE1FD2ECAE00B25BE8 /* Item.swift in Sources */,
 				9B3904831FD2700400B25BE8 /* tableViewTestUITests.swift in Sources */,
+				9BB746CC1FDD297F00E74F1F /* AddItemTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

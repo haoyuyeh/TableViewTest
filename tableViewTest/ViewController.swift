@@ -8,18 +8,29 @@
 
 import UIKit
 
-class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, AddItemTableViewControllerDelegate {
     
+    @IBOutlet weak var tableView: UITableView!
     var items = [Item]()
     
-    // MARK : View Lifecycle methods
+    // MARK: View Lifecycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         items.append(Item(name: "juice", quantity: 2, price: 1.5))
     }
     
-    // MARK : Table View Delegate Methods
+    // MARK: Navigation methods
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddItemSegue" {
+            let destVC = segue.destination as! AddItemTableViewController
+            destVC.delegate = self
+        }
+    }
+    
+    // MARK: Table View Delegate Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
@@ -29,9 +40,16 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell")
         let item = items[indexPath.row]
         cell?.textLabel?.text = item.name
-        cell?.detailTextLabel?.text = "Quantity:" + String(item.quantity) + ", Price:" + String(item.price)
+        cell?.detailTextLabel?.text = "Quantity: " + String(item.quantity) + " , Price: " + String(item.price)
         cell?.imageView?.image = item.image
         return cell!
+    }
+    
+    // MARK: Add Item Delegate
+    
+    func addNew(item: Item) {
+        items.append(item)
+        tableView.reloadData()
     }
 }
 
