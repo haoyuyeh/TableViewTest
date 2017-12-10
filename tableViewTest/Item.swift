@@ -15,9 +15,9 @@ class Item {
     var quantity = 0
     var price = 0.0
     var minPrice = 0.0
-    var enableExpiredDay = false
-    var purchasedDate = Date(timeIntervalSinceReferenceDate: 1)
-    var expiredDate = Date(timeIntervalSinceReferenceDate: 1)
+    var expiredDateReminder = false
+    var purchasedDate = ""
+    var expiredDate = ""
     init(name:String, quantity:Int, price: Double) {
         self.name = name
         self.quantity = quantity

@@ -17,7 +17,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         items.append(Item(name: "juice", quantity: 2, price: 1.5))
     }
     
@@ -45,10 +44,22 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         return cell!
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            items.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
+        }
+    }
+    
     // MARK: Add Item Delegate
     
     func addNew(item: Item) {
         items.append(item)
+        // refresh the view to show new item
         tableView.reloadData()
     }
 }
