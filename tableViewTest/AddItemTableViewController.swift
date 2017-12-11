@@ -10,11 +10,11 @@ import UIKit
 
 protocol AddItemTableViewControllerDelegate {
     func addNew(item: Item)
-    func showDetail() -> Item
 }
 
 class AddItemTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    var item : Item? = nil
     var delegate: AddItemTableViewControllerDelegate!
     let datePicker = UIDatePicker()
     
@@ -32,19 +32,55 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
     // MARK: IBActions
     
     @IBAction func saveBtnPressed(_ sender: UIBarButtonItem) {
-        let item = Item(name: itemName.text!, quantity: Int(itemQuantity.text!)!, price: Double(itemPrice.text!)!)
-        item.image = itemImage.image!
-        item.purchasedDate = itemPurchaseDate.text!
-        item.expiredDate = itemExpiredDate.text!
-        delegate.addNew(item: item)
+        if item == nil {
+            createItem()
+        }else {
+            editItem()
+        }
         // delete current view controller and show the previous one
         // switch the view from 'add item' to 'item list'
         navigationController?.popViewController(animated: true)
     }
+    
+    // MARK: Helper Methods
+    
+    func createItem() {
+        item = Item(name: itemName.text!, quantity: Int(itemQuantity.text!)!, price: Double(itemPrice.text!)!)
+        item?.image = itemImage.image!
+        item?.purchasedDate = itemPurchaseDate.text!
+        item?.expiredDate = itemExpiredDate.text!
+        delegate.addNew(item: item!)
+    }
+    
+    func editItem() {
+        item?.image = itemImage.image!
+        item?.name = itemName.text!
+        item?.quantity = Int(itemQuantity.text!)!
+        item?.price = Double(itemPrice.text!)!
+        item?.purchasedDate = itemPurchaseDate.text!
+        item?.expiredDate = itemExpiredDate.text!
+    }
+    
+    func showItem() {
+        itemImage.image = item?.image
+        itemName.text = item?.name
+        itemQuantity.text = "\(item?.quantity ?? 1)"
+        itemPrice.text = "\(item?.price ?? 0.0)"
+        itemMinPrice.text = "\(item?.minPrice ?? 0.0)"
+        itemPurchaseDate.text = item?.purchasedDate
+        itemExpiredDate.text = item?.expiredDate
+    }
+    
     // MARK: View Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // entering edit mode
+        if item != nil {
+            showItem()
+        }
+        
         // create a toolbar for keyboard
         let keyboardToolbar = UIToolbar()
         keyboardToolbar.sizeToFit()
@@ -68,16 +104,6 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         itemExpiredDate.inputView = datePicker
         itemExpiredDate.inputAccessoryView = keyboardToolbar
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        let item = delegate.showDetail()
-        itemImage.image = item.image
-        itemName.text = item.name
-        itemQuantity.text = String(item.quantity)
-        itemPrice.text = String(item.price)
-        itemPurchaseDate.text = item.purchasedDate
-        itemExpiredDate.text = item.expiredDate
-    }
 
     // MARK: Keyboard Toolbar Button Methods
     
@@ -95,7 +121,9 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         }
         view.endEditing(true)
     }
-    
+    /**
+        using segment controller to switch textFields needed editing
+     */
     @objc func segmentControl(sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             if itemQuantity.isFirstResponder {
@@ -138,6 +166,7 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
                 self.present(imagePickerController, animated: true, completion: nil)
             }
         }else if indexPath.section == 2 && indexPath.row == 0 {
+            // turn on/off the reminder and expand/collapse cells
             itemExpiredDateReminder.setOn(!itemExpiredDateReminder.isOn, animated: true)
             tableView.reloadData()
         }else if (indexPath.section == 1 && indexPath.row != 3) || (indexPath.section == 2 && indexPath.row == 1) {
@@ -158,6 +187,7 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         if indexPath.section == 0 {
             return 201.0
         }
+        // use to expand/collapse cells
         if indexPath.section == 2 {
             if itemExpiredDateReminder.isOn == false && indexPath.row == 1 {
                 return 0.0

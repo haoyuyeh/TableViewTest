@@ -15,6 +15,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     // MARK: View Lifecycle methods
     
+    override func viewWillAppear(_ animated: Bool) {
+        // refresh the view to show new item
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         items.append(Item(name: "juice", quantity: 2, price: 1.5))
@@ -26,6 +31,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         if segue.identifier == "AddItemSegue" {
             let destVC = segue.destination as! AddItemTableViewController
             destVC.delegate = self
+        }else if segue.identifier == "EditItemSegue" {
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPath(for: cell)
+            let destVC = segue.destination as! AddItemTableViewController
+            let item = items[(indexPath?.row)!]
+            destVC.item = item
         }
     }
     
@@ -59,8 +70,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     func addNew(item: Item) {
         items.append(item)
-        // refresh the view to show new item
-        tableView.reloadData()
+        
     }
 }
 
