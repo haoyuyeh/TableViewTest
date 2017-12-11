@@ -287,7 +287,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="  " footerTitle="  " id="rCW-Xx-V1s">
+                            <tableViewSection headerTitle="  " id="rCW-Xx-V1s">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EnableExpiredDateCell" id="87x-0w-gt2">
                                         <rect key="frame" x="0.0" y="533" width="375" height="44"/>
@@ -372,6 +372,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="addItemTableView" destination="OOH-QD-a55" id="M0g-ab-MwE"/>
                         <outlet property="itemExpiredDate" destination="goc-Id-E5d" id="vu7-9u-uDf"/>
                         <outlet property="itemExpiredDateReminder" destination="bNX-pF-cqO" id="7H8-Kr-Dbg"/>
                         <outlet property="itemImage" destination="w04-v3-gTs" id="p8L-Tb-DhE"/>

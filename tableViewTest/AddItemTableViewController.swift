@@ -20,6 +20,8 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
     
     // MARK: IBOutlets
     
+    @IBOutlet weak var addItemTableView: UITableView!
+    
     @IBOutlet weak var itemImage: UIImageView!
     @IBOutlet weak var itemName: UITextField!
     @IBOutlet weak var itemQuantity: UITextField!
@@ -103,7 +105,60 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         itemPurchaseDate.inputAccessoryView = keyboardToolbar
         itemExpiredDate.inputView = datePicker
         itemExpiredDate.inputAccessoryView = keyboardToolbar
+        
+        ///  step.1 Add tap gesture to view
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView(gesture:)))
+//        view.addGestureRecognizer(tapGesture)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        /// step.3 Add observers to receive 'UIKeyboardWillShow' and 'UIKeyboardWillHide' notification
+        addObservers()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        /// step.3 remove observers to Not receive notification when viewController is in the background
+        removeObservers()
+    }
+    
+    // MARK: fix keyboard occlusion methods
+    
+    /// step.2 Add method to handle tap event on the view and dismiss keyboard
+//    @objc func didTapView(gesture: UITapGestureRecognizer) {
+//        // this should hide keyboard for the view
+//        view.endEditing(true)
+//    }
+    
+    /// step.3 Add observers for 'UIKeyboardWillShow' and 'UIKeyboardWillHide' notification
+    func addObservers() {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIKeyboardWillShow, object: nil, queue: nil) { (notification) in
+            self.keyboardWillShow(notification: notification)
+        }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIKeyboardWillHide, object: nil, queue: nil) { (notification) in
+            self.keyboardWillHide(notification: notification)
+        }
+    }
+    
+    /// step.6 Method to remove observers
+    func removeObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    /// step.4 Add method to handle keyboardWillShow notification, we're using this method to adjust scrollview to show hidden textField under keyboard
+    func keyboardWillShow(notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            tableView.contentInset = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0)
+        }
+    }
+    
+    /// step.5 Method to reset scrollview when keyboard is hidden
+    func keyboardWillHide(notification: Notification) {
+        tableView.contentInset = UIEdgeInsets.zero
+    }
+    
+    
 
     // MARK: Keyboard Toolbar Button Methods
     
@@ -189,7 +244,9 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         }
         // use to expand/collapse cells
         if indexPath.section == 2 {
+            print("section2")
             if itemExpiredDateReminder.isOn == false && indexPath.row == 1 {
+                print("row1")
                 return 0.0
             }
         }
