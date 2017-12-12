@@ -10,8 +10,19 @@ import UIKit
 
 class FolderViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, AddItemTableViewControllerDelegate {
     
-    @IBOutlet weak var tableView: UITableView!
+    // MARK: global variables
+    let sectionTitles = ["Folders", "Items"]
     var mainFolder = Folder(name: "main")
+    
+    enum itemCompareType {
+        case name
+        case purchaseDate
+        case expiredDate
+    }
+    
+    // MARK: IBOutlet
+    @IBOutlet weak var tableView: UITableView!
+    
 
     // MARK: IBAction
     
@@ -35,10 +46,12 @@ class FolderViewController: UIViewController,UITableViewDelegate,UITableViewData
             // create a textfield to retrieve folder's name
             alert.addTextField(configurationHandler: { (folderName) in
                 folderName.placeholder = "Folder's Name"
-                folderName.keyboardType = .asciiCapable
+                folderName.keyboardType = .default
+                folderName.autocorrectionType = .yes
             })
             let save = UIAlertAction(title: "Save", style: .default, handler: { (action) in
                 self.mainFolder.containedFolders.append(Folder(name: (alert.textFields?.first?.text)!))
+                self.mainFolder.containedFolders = self.folderCustomSort(target: self.mainFolder.containedFolders, order: .orderedAscending)
                 self.tableView.reloadData()
             })
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -71,6 +84,7 @@ class FolderViewController: UIViewController,UITableViewDelegate,UITableViewData
         mainFolder.containedItems.append(Item(name: "juice", quantity: 2, price: 1.5))
     }
     
+    
     // MARK: Navigation methods
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -88,18 +102,25 @@ class FolderViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     // MARK: Table View Delegate Methods
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mainFolder.containedItems.count + mainFolder.containedFolders.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sectionTitles.count
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return mainFolder.containedFolders.count
+        }else {
+            return mainFolder.containedItems.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionTitles[section]
+    }
+    
     // create existing cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let folderNum = mainFolder.containedFolders.count
-        print("index path \(indexPath.row)")
-        print("folder num \(folderNum)")
-        print("item num \(mainFolder.containedItems.count)")
-
-        // create folders first then items
-        if indexPath.row < folderNum {
+        if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FolderCell")
             let folder = mainFolder.containedFolders[indexPath.row]
             cell?.textLabel?.text = folder.name
@@ -107,7 +128,7 @@ class FolderViewController: UIViewController,UITableViewDelegate,UITableViewData
             return cell!
         }else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell")
-            let item = mainFolder.containedItems[indexPath.row - folderNum]
+            let item = mainFolder.containedItems[indexPath.row]
             cell?.textLabel?.text = item.name
             cell?.detailTextLabel?.text = "Quantity: " + String(item.quantity) + " , Price(per unit): " + String(item.price)
             cell?.imageView?.image = item.image
@@ -120,17 +141,12 @@ class FolderViewController: UIViewController,UITableViewDelegate,UITableViewData
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        // delete cells
         if editingStyle == UITableViewCellEditingStyle.delete {
-            let folderNum = mainFolder.containedFolders.count
-            print("index path \(indexPath.row)")
-            print("folder num \(folderNum)")
-            print("item num \(mainFolder.containedItems.count)")
-            
-            // check which type should be deleted
-            if indexPath.row < folderNum {
+            if indexPath.section == 0 {
                 mainFolder.containedFolders.remove(at: indexPath.row)
             }else {
-                mainFolder.containedItems.remove(at: indexPath.row - folderNum)
+                mainFolder.containedItems.remove(at: indexPath.row)
             }
             tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
         }
@@ -140,6 +156,37 @@ class FolderViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     func addNew(item: Item) {
         mainFolder.containedItems.append(item)
+        mainFolder.containedItems = itemCustomSort(target: mainFolder.containedItems, by: .name, order: .orderedAscending)
+    }
+    
+    // MARK: Helper methods
+    
+    func itemCustomSort(target: Array<Item>, by: itemCompareType, order: ComparisonResult) -> Array<Item> {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .none
+        
+        switch by {
+        case .purchaseDate:
+            return target.sorted(by: { (t1, t2) -> Bool in
+                return dateFormatter.date(from: t1.purchasedDate)?.compare(dateFormatter.date(from: t2.purchasedDate)!)  == order
+            })
+        case .expiredDate:
+            return target.sorted(by: { (t1, t2) -> Bool in
+                return dateFormatter.date(from: t1.expiredDate)?.compare(dateFormatter.date(from: t2.expiredDate)!)  == order
+            })
+        default:
+            return target.sorted { (t1, t2) -> Bool in
+                return t1.name.localizedStandardCompare(t2.name) == order
+            }
+        }
+    }
+    
+    func folderCustomSort(target: Array<Folder>, order: ComparisonResult) -> Array<Folder> {
+        return target.sorted { (t1, t2) -> Bool in
+            return t1.name.localizedStandardCompare(t2.name) == order
+        }
     }
 }
 

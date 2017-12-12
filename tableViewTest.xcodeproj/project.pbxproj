@@ -113,9 +113,9 @@
 			children = (
 				9B39045F1FD2700400B25BE8 /* AppDelegate.swift */,
 				9B3904611FD2700400B25BE8 /* FolderViewController.swift */,
+				9BB746C91FDD297F00E74F1F /* AddItemTableViewController.swift */,
 				9B3904AB1FD2ECAE00B25BE8 /* Item.swift */,
 				9BABED941FDFA067000C9015 /* Folder.swift */,
-				9BB746C91FDD297F00E74F1F /* AddItemTableViewController.swift */,
 				9B3904631FD2700400B25BE8 /* Main.storyboard */,
 				9B3904691FD2700400B25BE8 /* Assets.xcassets */,
 				9B39046B1FD2700400B25BE8 /* LaunchScreen.storyboard */,
