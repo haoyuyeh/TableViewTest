@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9B3904601FD2700400B25BE8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B39045F1FD2700400B25BE8 /* AppDelegate.swift */; };
-		9B3904621FD2700400B25BE8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3904611FD2700400B25BE8 /* ViewController.swift */; };
+		9B3904621FD2700400B25BE8 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3904611FD2700400B25BE8 /* FolderViewController.swift */; };
 		9B3904651FD2700400B25BE8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B3904631FD2700400B25BE8 /* Main.storyboard */; };
 		9B3904681FD2700400B25BE8 /* tableViewTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9B3904661FD2700400B25BE8 /* tableViewTest.xcdatamodeld */; };
 		9B39046A1FD2700400B25BE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B3904691FD2700400B25BE8 /* Assets.xcassets */; };
@@ -46,7 +46,7 @@
 /* Begin PBXFileReference section */
 		9B39045C1FD2700400B25BE8 /* tableViewTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tableViewTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B39045F1FD2700400B25BE8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9B3904611FD2700400B25BE8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9B3904611FD2700400B25BE8 /* FolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		9B3904641FD2700400B25BE8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9B3904671FD2700400B25BE8 /* tableViewTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = tableViewTest.xcdatamodel; sourceTree = "<group>"; };
 		9B3904691FD2700400B25BE8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -112,7 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				9B39045F1FD2700400B25BE8 /* AppDelegate.swift */,
-				9B3904611FD2700400B25BE8 /* ViewController.swift */,
+				9B3904611FD2700400B25BE8 /* FolderViewController.swift */,
 				9B3904AB1FD2ECAE00B25BE8 /* Item.swift */,
 				9BABED941FDFA067000C9015 /* Folder.swift */,
 				9BB746C91FDD297F00E74F1F /* AddItemTableViewController.swift */,
@@ -279,7 +279,7 @@
 			files = (
 				9B3904AC1FD2ECAE00B25BE8 /* Item.swift in Sources */,
 				9BB746CA1FDD297F00E74F1F /* AddItemTableViewController.swift in Sources */,
-				9B3904621FD2700400B25BE8 /* ViewController.swift in Sources */,
+				9B3904621FD2700400B25BE8 /* FolderViewController.swift in Sources */,
 				9B3904681FD2700400B25BE8 /* tableViewTest.xcdatamodeld in Sources */,
 				9B3904601FD2700400B25BE8 /* AppDelegate.swift in Sources */,
 				9BABED951FDFA067000C9015 /* Folder.swift in Sources */,

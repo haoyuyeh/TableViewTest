@@ -7,3 +7,13 @@
 //
 
 import Foundation
+
+class Folder {
+    var name = ""
+    var containedItems = [Item]()
+    var containedFolders = [Folder]()
+    
+    init(name: String) {
+        self.name = name
+    }
+}

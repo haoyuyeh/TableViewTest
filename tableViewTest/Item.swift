@@ -18,6 +18,7 @@ class Item {
     var expiredDateReminder = false
     var purchasedDate = ""
     var expiredDate = ""
+    
     init(name:String, quantity:Int, price: Double) {
         self.name = name
         self.quantity = quantity
