@@ -12,11 +12,15 @@ protocol AddItemTableViewControllerDelegate {
     func addNew(item: Item)
 }
 
-class AddItemTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddItemTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     var item : Item? = nil
     var delegate: AddItemTableViewControllerDelegate!
     let datePicker = UIDatePicker()
+    
+    let keyboardToolbar = UIToolbar()
+    let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveClicked))
+    let segmentController = UISegmentedControl(items: ["previous", "next"])
     
     // MARK: IBOutlets
     
@@ -43,6 +47,9 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         // switch the view from 'add item' to 'item list'
         navigationController?.popViewController(animated: true)
     }
+    @IBAction func reminderValueChanged(_ sender: UISwitch) {
+        tableView.reloadData()
+    }
     
     // MARK: Helper Methods
     
@@ -50,6 +57,7 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         item = Item(name: itemName.text!, quantity: Int(itemQuantity.text!)!, price: Double(itemPrice.text!)!)
         item?.image = itemImage.image!
         item?.purchasedDate = itemPurchaseDate.text!
+        item?.expiredDateReminder = itemExpiredDateReminder.isOn
         item?.expiredDate = itemExpiredDate.text!
         delegate.addNew(item: item!)
     }
@@ -60,6 +68,7 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         item?.quantity = Int(itemQuantity.text!)!
         item?.price = Double(itemPrice.text!)!
         item?.purchasedDate = itemPurchaseDate.text!
+        item?.expiredDateReminder = itemExpiredDateReminder.isOn
         item?.expiredDate = itemExpiredDate.text!
     }
     
@@ -70,6 +79,7 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         itemPrice.text = "\(item?.price ?? 0.0)"
         itemMinPrice.text = "\(item?.minPrice ?? 0.0)"
         itemPurchaseDate.text = item?.purchasedDate
+        itemExpiredDateReminder.isOn = (item?.expiredDateReminder)!
         itemExpiredDate.text = item?.expiredDate
     }
     
@@ -77,32 +87,38 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.tableFooterView = UIView()
         // entering edit mode
         if item != nil {
             showItem()
         }
         
         // create a toolbar for keyboard
-        let keyboardToolbar = UIToolbar()
+//        let keyboardToolbar = UIToolbar()
         keyboardToolbar.sizeToFit()
         // add segment control into toolbar
-        let segmentController = UISegmentedControl(items: ["previous", "next"])
+//        let segmentController = UISegmentedControl(items: ["previous", "next"])
         let segmentControlButton = UIBarButtonItem(customView: segmentController)
-        segmentController.addTarget(self, action: #selector(self.segmentControl), for:.allEvents)
+        segmentController.addTarget(self, action: #selector(self.segmentControl), for:UIControlEvents.allEvents)
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneClicked))
-        keyboardToolbar.setItems([segmentControlButton, flexibleSpace, doneButton], animated: false)
-        
+//        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.saveClicked))
+        keyboardToolbar.setItems([segmentControlButton, flexibleSpace, saveButton, doneButton], animated: false)
+        saveButton.isEnabled = false
         // format for date picker
         datePicker.datePickerMode = .date
         
+        itemName.delegate = self
         itemName.inputAccessoryView = keyboardToolbar
+        itemQuantity.delegate = self
         itemQuantity.inputAccessoryView = keyboardToolbar
+        itemPrice.delegate = self
         itemPrice.inputAccessoryView = keyboardToolbar
+        itemPurchaseDate.delegate = self
         itemPurchaseDate.inputView = datePicker
         itemPurchaseDate.inputAccessoryView = keyboardToolbar
+        itemExpiredDate.delegate = self
         itemExpiredDate.inputView = datePicker
         itemExpiredDate.inputAccessoryView = keyboardToolbar
         
@@ -163,6 +179,10 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
     // MARK: Keyboard Toolbar Button Methods
     
     @objc func doneClicked() {
+        view.endEditing(true)
+    }
+    
+    @objc func saveClicked() {
         // date format
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale.current
@@ -174,7 +194,6 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         }else if itemExpiredDate.isFirstResponder {
             itemExpiredDate.text = dateFormatter.string(from: datePicker.date)
         }
-        view.endEditing(true)
     }
     /**
         using segment controller to switch textFields needed editing
@@ -244,9 +263,7 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         }
         // use to expand/collapse cells
         if indexPath.section == 2 {
-            print("section2")
             if itemExpiredDateReminder.isOn == false && indexPath.row == 1 {
-                print("row1")
                 return 0.0
             }
         }
@@ -264,5 +281,26 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: TextField Delegate Methods
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if itemName.isFirstResponder {
+            segmentController.setEnabled(false, forSegmentAt: 0)
+            segmentController.setEnabled(true, forSegmentAt: 1)
+            saveButton.isEnabled = false
+        }else if itemExpiredDate.isFirstResponder {
+            segmentController.setEnabled(true, forSegmentAt: 0)
+            segmentController.setEnabled(false, forSegmentAt: 1)
+            saveButton.isEnabled = true
+        }else {
+            segmentController.setEnabled(true, forSegmentAt: 0)
+            segmentController.setEnabled(true, forSegmentAt: 1)
+            if itemPurchaseDate.isFirstResponder {
+                saveButton.isEnabled = true
+            }else {
+                saveButton.isEnabled = false
+            }            
+        }
     }
 }
