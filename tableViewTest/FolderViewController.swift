@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FolderViewController.swift
 //  tableViewTest
 //
 //  Created by Hao Yu Yeh on 2017/12/2.
@@ -26,9 +26,9 @@ class FolderViewController: UIViewController,UITableViewDelegate,UITableViewData
 
     // MARK: IBAction
     
-    // show action sheet for multiple choices
-    // and use alert to let user enter folder's name
-    // if they intend to create a new folder
+    /** show action sheet for multiple choices and use alert to let user enter folder's name;
+        if they intend to create a new folder
+     */
     @IBAction func plusButtonTapped(_ sender: UIBarButtonItem) {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -79,11 +79,11 @@ class FolderViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // set navigation bar's title to folder's name
+        self.title = mainFolder.name
         // remove empty cells
         tableView.tableFooterView = UIView()
-        mainFolder.containedItems.append(Item(name: "juice", quantity: 2, price: 1.5))
     }
-    
     
     // MARK: Navigation methods
     
@@ -93,16 +93,35 @@ class FolderViewController: UIViewController,UITableViewDelegate,UITableViewData
             let itemDestVC = segue.destination as! AddItemTableViewController
             let cell = sender as! UITableViewCell
             let indexPath = tableView.indexPath(for: cell)
-            // calculate item's index due to the possiblity of having folders
-            let index = (indexPath?.row)! - mainFolder.containedFolders.count
-            let item = mainFolder.containedItems[index]
+            // using section to divide folders and items, therefore, directly using indexPath.row as index
+            let item = mainFolder.containedItems[(indexPath?.row)!]
             itemDestVC.item = item
+        }else if segue.identifier == "showFolderSegue" {
+            let folderDestVC = segue.destination as! FolderViewController
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPath(for: cell)
+            // using section to divide folders and items, therefore, directly using indexPath.row as index
+            let folder = mainFolder.containedFolders[(indexPath?.row)!]
+            folderDestVC.mainFolder = folder
         }
     }
     
     // MARK: Table View Delegate Methods
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        // show message when there is no data in the table view
+        let totalCellNum = mainFolder.containedFolders.count + mainFolder.containedItems.count
+        if totalCellNum > 0 {
+            tableView.separatorStyle = .singleLine
+            tableView.backgroundView = nil
+        }else {
+            let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "Press plus button to add folders or items."
+            noDataLabel.textColor = UIColor.black
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle = .none
+        }
         return sectionTitles.count
     }
     
@@ -115,7 +134,12 @@ class FolderViewController: UIViewController,UITableViewDelegate,UITableViewData
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitles[section]
+        if self.tableView(tableView, numberOfRowsInSection: section) > 0 {
+            return sectionTitles[section]
+        }else {
+            return nil
+        }
+        
     }
     
     // create existing cells

@@ -14,6 +14,8 @@ protocol AddItemTableViewControllerDelegate {
 
 class AddItemTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
+    // MARK: Global Variables
+    
     var item : Item? = nil
     var delegate: AddItemTableViewControllerDelegate!
     let datePicker = UIDatePicker()
@@ -87,6 +89,7 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // remove empty cells
         tableView.tableFooterView = UIView()
         // entering edit mode
         if item != nil {
@@ -94,16 +97,13 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         }
         
         // create a toolbar for keyboard
-//        let keyboardToolbar = UIToolbar()
         keyboardToolbar.sizeToFit()
         // add segment control into toolbar
-//        let segmentController = UISegmentedControl(items: ["previous", "next"])
         let segmentControlButton = UIBarButtonItem(customView: segmentController)
         segmentController.addTarget(self, action: #selector(self.segmentControl), for:UIControlEvents.allEvents)
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneClicked))
-//        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.saveClicked))
         keyboardToolbar.setItems([segmentControlButton, flexibleSpace, saveButton, doneButton], animated: false)
         saveButton.isEnabled = false
         // format for date picker
@@ -174,8 +174,6 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
         tableView.contentInset = UIEdgeInsets.zero
     }
     
-    
-
     // MARK: Keyboard Toolbar Button Methods
     
     @objc func doneClicked() {
@@ -227,11 +225,11 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
     // MARK: Table View Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // use image picker to take picture of item
         if indexPath.section == 0 && indexPath.row == 0 {
+            // use image picker to take picture of item
             let imagePickerController = UIImagePickerController()
             imagePickerController.delegate = self
-            
+            // if camera is available, using camera; otherwise using photo library
             if UIImagePickerController.isSourceTypeAvailable(.camera){
                 imagePickerController.sourceType = .camera
                 self.present(imagePickerController, animated: true, completion: nil)
@@ -284,6 +282,7 @@ class AddItemTableViewController: UITableViewController, UIImagePickerController
     }
     
     // MARK: TextField Delegate Methods
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if itemName.isFirstResponder {
             segmentController.setEnabled(false, forSegmentAt: 0)

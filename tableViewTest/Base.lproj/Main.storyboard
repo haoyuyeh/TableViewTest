@@ -38,6 +38,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="PZr-Xf-4O1" kind="show" identifier="showFolderSegue" id="04b-2b-ike"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemCell" textLabel="QC9-rk-Y7F" detailTextLabel="dKK-db-JiD" rowHeight="100" style="IBUITableViewCellStyleSubtitle" id="eum-wm-3iI">
                                         <rect key="frame" x="0.0" y="72" width="375" height="100"/>
@@ -96,7 +99,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qs2-DB-vhq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-167.19999999999999" y="-182.15892053973016"/>
+            <point key="canvasLocation" x="-95" y="-182"/>
         </scene>
         <!--Add Item-->
         <scene sceneID="Qug-mh-jDI">
@@ -405,7 +408,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iR6-5i-d1I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="549.60000000000002" y="-182.15892053973016"/>
+            <point key="canvasLocation" x="679" y="-182"/>
         </scene>
         <!--Main Navi-->
         <scene sceneID="qbw-kj-p9X">
